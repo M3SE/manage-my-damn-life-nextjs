@@ -1,0 +1,30 @@
+version: '3'
+services:
+  # Define the Node.js web application service
+  web:
+    # Build from the Dockerfile in the current directory
+    build: .
+    # Map ports: external:internal
+    ports:
+      - "3000:3000"
+    # Define environment variables (optional)
+    environment:
+      - NODE_ENV=development
+    # Declare dependencies between services (wait for MongoDB to be ready)
+    depends_on:
+      - db
+
+  # Define the MongoDB service
+  db:
+    # Use the official MongoDB image from Docker Hub
+    image: mongo
+    # Map MongoDB ports: external:internal
+    ports:
+      - "27017:27017"
+    # Define a volume to persist data
+    volumes:
+      - mongo-data:/data/db
+
+# Define volumes to persist data across restarts
+volumes:
+  mongo-data:
